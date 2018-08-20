@@ -15,7 +15,7 @@ public:
 	Deque(const Deque<T>&);
 	Deque& operator =(const Deque<T>&);
 
-	bool vacia();
+	bool empty();
 
 	void push_front( const T&);
 	void push_back(const T&);
@@ -49,7 +49,73 @@ private:
 
 
 
+template<typename T>
+void Deque<T>::copy(const Deque<T>& D)
+{
+	if(D.begin)
+	{
+		begin == end == new node(D.begin->elt);
 
+		for(node* p = D.begin->next; p; p = p->next)
+		{
+			end->next = new node(p->elt);
+			end = end->next;
+		}
+	}
+
+}
+
+template<typename T>
+inline Deque<T>::Deque(): 
+begin{0},
+end{0}
+{}
+
+
+template<typename T>
+inline Deque<T>::Deque(const Deque<T>& D){copy(D);}
+
+template<typename T>
+inline Deque<T>& Deque<T>::operator =(const Deque<T>& D)
+{
+	if(this != &D)
+	{
+		this->~Deque();
+		copy(D);
+	}
+
+	return *this;
+}
+
+
+template<typename T>
+inline bool Deque<T>::empty()
+{
+	return begin == 0;
+}
+
+
+template<typename T>
+void Deque<T>::push_front(const T& e)
+{
+	node* new_begin = new node(e);
+
+	if(begin == 0)
+		begin=end= new_begin;
+	else
+		begin = new_begin->next = begin;
+}
+
+template<typename T>
+void Deque<T>::push_back(const T& e)
+{
+	node* new_end = new node(e);
+
+	if(begin == 0)
+		begin = end= new_end;
+	else
+		end = end->next= new_end;
+}
 
 
 
