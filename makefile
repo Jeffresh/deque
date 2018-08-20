@@ -1,5 +1,5 @@
 CXX = clang++
-OBJS = deque.hpp
+OBJS = test_deque.o
 
 all: main
 

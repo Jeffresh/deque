@@ -54,7 +54,7 @@ void Deque<T>::copy(const Deque<T>& D)
 {
 	if(D.begin)
 	{
-		begin == end == new node(D.begin->elt);
+		begin = end = new node(D.begin->elt);
 
 		for(node* p = D.begin->next; p; p = p->next)
 		{
@@ -103,7 +103,11 @@ void Deque<T>::push_front(const T& e)
 	if(begin == 0)
 		begin=end= new_begin;
 	else
-		begin = new_begin->next = begin;
+	{
+		new_begin->next = begin;
+		begin = new_begin;
+	}
+	
 }
 
 template<typename T>
@@ -117,6 +121,66 @@ void Deque<T>::push_back(const T& e)
 		end = end->next= new_end;
 }
 
+template<typename T>
+void Deque<T>::pop_front()
+{
+	assert(!empty());
+
+	node* temp_begin = begin;
+
+	begin = temp_begin->next;
+
+	if(!begin) end =0;
+
+	delete temp_begin;
+
+}
+
+template<typename T>
+void Deque<T>::pop_back()
+{
+
+	assert(!empty());
+	node* p = begin;
+
+
+	if( begin != end) 
+	{
+		while(p->next!=end)
+			p = p->next;
+		
+
+		delete p->next;
+		end = p;
+	}
+	else
+	{
+		delete p; end = begin = 0;	
+	}
+
+}
+
+
+template<typename T>
+const T& Deque<T>::front(){ assert(!empty()); return begin->elt;}
+
+template<typename T>
+const T& Deque<T>::back(){assert(!empty()); return end->elt;}
+
+template<typename T>
+Deque<T>::~Deque()
+{
+	node* p;
+
+	while(begin)
+	{
+		p = begin;
+		begin = begin->next;
+		delete p;
+	}
+
+	end = 0;
+}
 
 
 
